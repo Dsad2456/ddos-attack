@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sardhan DDoS Lab</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .status {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    .safe {
+      color: #00ff00;
+    }
+    .danger {
+      color: #ff3333;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Sardhan's DDoS Detection</h1>
+  <div id="status" class="status safe">✅ All systems normal</div>
+  <div id="rate" class="status">Request rate: 0/s</div>
+
+  <script>
+    setInterval(() => {
+      fetch('/status')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('rate').textContent = 'Request rate: ' + data.rate + '/5s';
+          const status = document.getElementById('status');
+          if (data.attack) {
+            status.textContent = '🚨 UNDER ATTACK DETECTED!';
+            status.className = 'status danger';
+          } else {
+            status.textContent = '✅ All systems normal';
+            status.className = 'status safe';
+          }
+        });
+    }, 1000);
+  </script>
+</body>
+</html>
